@@ -5,6 +5,7 @@ s = curses.initscr()
 curses.curs_set(0)
 sh, sw = s.getmaxyx()
 w = curses.newwin(sh, sw, 0, 0)
+w.box()
 w.keypad(1)
 w.timeout(100)
 
@@ -27,8 +28,8 @@ while True:
     next_key = w.getch()
     key = key if next_key == -1 else next_key
 
-    if snake[0][0] in [0, sh] or \
-        snake[0][1]  in [0, sw] or \
+    if snake[0][0] in [1, sh-1] or \
+        snake[0][1]  in [1, sw-1] or \
         snake[0] in snake[1:]:
         curses.endwin()
         quit()
@@ -51,8 +52,8 @@ while True:
         food = None
         while food is None:
             nf = [
-                random.randint(1, sh-1),
-                random.randint(1, sw-1)
+                random.randint(2, sh-2),
+                random.randint(2, sw-2)
             ]
             food = nf if nf not in snake else None
         w.addch(food[0], food[1], curses.ACS_PI)
